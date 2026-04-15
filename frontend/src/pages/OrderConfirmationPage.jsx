@@ -32,7 +32,7 @@ export default function OrderConfirmationPage() {
           </button>
           
           <button
-            onClick={() => navigate('/')}
+            onClick={() => navigate('/orders')}
             className="w-full border border-flipkart-blue text-flipkart-blue py-3 rounded-sm font-medium hover:bg-blue-50 transition-all"
           >
             View Order History
