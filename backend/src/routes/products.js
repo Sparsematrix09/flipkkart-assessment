@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { QueryTypes } = require('sequelize');
-const sequelize = require('../db');
+const sequelize = require('../db/index.js');
 
 // getting filtered prod
 router.get('/', async (req, res) => {

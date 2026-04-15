@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { QueryTypes } = require('sequelize');
-const sequelize = require('../db');
+const sequelize = require('../db/index.js');
 
 const DEFAULT_USER_ID = '11111111-1111-1111-1111-111111111111';
 
