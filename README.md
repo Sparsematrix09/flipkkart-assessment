@@ -29,6 +29,8 @@ A functional e-commerce web application that closely replicates Flipkart's desig
 - Order Summary Review Before Placing Order
 - Place Order Functionality
 - Order Confirmation Page with Order ID
+- Order History - View All Past Orders
+- Order Details - Expand to View Items & Shipping Info
 
 ### UI/UX Features
 - Flipkart-like Blue Navigation Bar
@@ -36,7 +38,9 @@ A functional e-commerce web application that closely replicates Flipkart's desig
 - Toast Notifications for User Actions
 - Loading States for API Calls
 - Product Card Hover Effects
-
+- My Account Dropdown with Order History Link
+- Order History Page with Expandable Details
+  
 ## Tech Stack
 Technology
 |------------|
