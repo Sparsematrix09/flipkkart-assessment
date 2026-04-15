@@ -6,12 +6,13 @@ const sequelize = require('../db/index.js');
 router.get('/', async (req, res) => {
   try {
     const categories = await sequelize.query(`
-      SELECT * FROM categories WHERE parent_id IS NULL
+      SELECT * FROM categories ORDER BY id
     `, {
       type: QueryTypes.SELECT,
     });
     res.json(categories);
   } catch (error) {
+    console.error('Error fetching categories:', error);
     res.status(500).json({ error: error.message });
   }
 });
