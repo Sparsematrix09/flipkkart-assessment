@@ -39,9 +39,6 @@ export default function OrderConfirmationPage() {
           </button>
         </div>
         
-        <p className="text-xs text-flipkart-text mt-6">
-          A confirmation email has been sent to your registered email address
-        </p>
       </div>
     </div>
   );
