@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FaSearch, FaShoppingCart, FaUserCircle, FaChevronDown } from 'react-icons/fa';
+import { FaSearch, FaShoppingCart, FaUserCircle, FaChevronDown, FaHistory } from 'react-icons/fa';
 
 export default function Navbar({ cartCount }) {
   const [search, setSearch] = useState('');
+  const [showProfileMenu, setShowProfileMenu] = useState(false);
   const navigate = useNavigate();
 
   const handleSearch = (e) => {
@@ -17,6 +18,7 @@ export default function Navbar({ cartCount }) {
     <nav className="bg-flipkart-blue sticky top-0 z-50 shadow-md">
       <div className="max-w-7xl mx-auto px-4 py-3">
         <div className="flex items-center gap-4 lg:gap-8">
+          {/* Logo */}
           <div 
             onClick={() => navigate('/')} 
             className="cursor-pointer flex flex-col items-start"
@@ -52,24 +54,39 @@ export default function Navbar({ cartCount }) {
             </div>
           </form>
 
-          {/* login button (static) */}
-          <div className="relative group">
-            <button className="bg-white text-flipkart-blue px-8 py-1.5 font-medium rounded-sm hover:bg-gray-50 transition-colors flex items-center gap-2">
+          {/* profile dropdown-order history */}
+          <div className="relative">
+            <button 
+              onClick={() => setShowProfileMenu(!showProfileMenu)}
+              className="bg-white text-flipkart-blue px-6 py-1.5 font-medium rounded-sm hover:bg-gray-50 transition-colors flex items-center gap-2"
+            >
               <FaUserCircle size={18} />
-              Guest
+              My Account
               <FaChevronDown size={12} />
             </button>
+            
+            {showProfileMenu && (
+              <div className="absolute right-0 mt-2 w-48 bg-white rounded-sm shadow-lg py-2 z-50">
+                <button
+                  onClick={() => {
+                    navigate('/orders');
+                    setShowProfileMenu(false);
+                  }}
+                  className="w-full px-4 py-2 text-left text-gray-700 hover:bg-gray-100 flex items-center gap-2"
+                >
+                  <FaHistory /> Order History
+                </button>
+                <hr className="my-1" />
+                <div className="px-4 py-2 text-xs text-gray-500">
+                  Guest User
+                </div>
+              </div>
+            )}
           </div>
 
           {/* seller */}
           <div className="text-white font-medium cursor-pointer hover:underline hidden lg:block">
             Become a Seller
-          </div>
-
-          {/* more */}
-          <div className="text-white font-medium cursor-pointer hover:underline hidden lg:block flex items-center gap-1">
-            More
-            <FaChevronDown size={12} />
           </div>
 
           {/* cart */}

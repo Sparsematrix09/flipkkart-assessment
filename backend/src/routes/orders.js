@@ -84,4 +84,135 @@ router.post('/create', async (req, res) => {
   }
 });
 
+//get order history for the default user
+router.get('/history', async (req, res) => {
+  try {
+    const orders = await sequelize.query(`
+      SELECT 
+        o.id,
+        o.total_amount,
+        o.status,
+        o.created_at,
+        a.full_name,
+        a.address_line,
+        a.city,
+        a.state,
+        a.pincode,
+        a.phone,
+        (
+          SELECT json_agg(
+            json_build_object(
+              'product_id', oi.product_id,
+              'product_name', p.name,
+              'quantity', oi.quantity,
+              'price', oi.price,
+              'subtotal', (oi.quantity * oi.price),
+              'image', (
+                SELECT image_url FROM product_images 
+                WHERE product_id = oi.product_id 
+                LIMIT 1
+              )
+            )
+            ORDER BY oi.id
+          )
+          FROM order_items oi
+          JOIN products p ON oi.product_id = p.id
+          WHERE oi.order_id = o.id
+        ) as items
+      FROM orders o
+      JOIN addresses a ON o.address_id = a.id
+      WHERE o.user_id = :userId
+      ORDER BY o.created_at DESC
+    `, {
+      replacements: { userId: DEFAULT_USER_ID },
+      type: QueryTypes.SELECT,
+    });
+    
+    // parse the JSON items for each order
+    const parsedOrders = orders.map(order => ({
+      ...order,
+      items: typeof order.items === 'string' ? JSON.parse(order.items) : order.items,
+      created_at: new Date(order.created_at).toLocaleDateString('en-IN', {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      })
+    }));
+    
+    res.json(parsedOrders);
+  } catch (error) {
+    console.error('Error fetching order history:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+//get single order details by ID
+router.get('/history/:orderId', async (req, res) => {
+  try {
+    const { orderId } = req.params;
+    
+    const order = await sequelize.query(`
+      SELECT 
+        o.id,
+        o.total_amount,
+        o.status,
+        o.created_at,
+        a.full_name,
+        a.address_line,
+        a.city,
+        a.state,
+        a.pincode,
+        a.phone,
+        (
+          SELECT json_agg(
+            json_build_object(
+              'product_id', oi.product_id,
+              'product_name', p.name,
+              'quantity', oi.quantity,
+              'price', oi.price,
+              'subtotal', (oi.quantity * oi.price),
+              'image', (
+                SELECT image_url FROM product_images 
+                WHERE product_id = oi.product_id 
+                LIMIT 1
+              )
+            )
+          )
+          FROM order_items oi
+          JOIN products p ON oi.product_id = p.id
+          WHERE oi.order_id = o.id
+        ) as items
+      FROM orders o
+      JOIN addresses a ON o.address_id = a.id
+      WHERE o.user_id = :userId AND o.id = :orderId
+    `, {
+      replacements: { userId: DEFAULT_USER_ID, orderId },
+      type: QueryTypes.SELECT,
+    });
+    
+    if (!order.length) {
+      return res.status(404).json({ error: 'Order not found' });
+    }
+    
+    const parsedOrder = {
+      ...order[0],
+      items: typeof order[0].items === 'string' ? JSON.parse(order[0].items) : order[0].items,
+      created_at: new Date(order[0].created_at).toLocaleDateString('en-IN', {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      })
+    };
+    
+    res.json(parsedOrder);
+  } catch (error) {
+    console.error('Error fetching order details:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
 module.exports = router;

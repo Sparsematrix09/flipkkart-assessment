@@ -8,11 +8,10 @@ import ProductDetailPage from './pages/ProductDetailPage';
 import CartPage from './pages/CartPage';
 import CheckoutPage from './pages/CheckoutPage';
 import OrderConfirmationPage from './pages/OrderConfirmationPage';
-
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
-
+import OrderHistoryPage from './pages/OrderHistoryPage'; 
 
 function App() {
+  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
   const [cartCount, setCartCount] = useState(0);
   
   useEffect(() => {
@@ -39,6 +38,7 @@ function App() {
         <Route path="/cart" element={<CartPage API_URL={API_URL} setCartCount={setCartCount} />} />
         <Route path="/checkout" element={<CheckoutPage API_URL={API_URL} />} />
         <Route path="/order-confirmation/:orderId" element={<OrderConfirmationPage />} />
+        <Route path="/orders" element={<OrderHistoryPage API_URL={API_URL} />} />  
       </Routes>
     </BrowserRouter>
   );
