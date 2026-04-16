@@ -51,6 +51,12 @@ Technology
 | **Express.js** |
 | **Sequelize ORM** |
 | **PostgreSQL** |
+
+## Screenshots
+![Screenshot](Screenshot1.png)
+![Screenshot](Screenshot2.png)
+!![Screenshot](Screenshot3.png)
+
 ## System Flow
 ### Data Flow Explanation
 
