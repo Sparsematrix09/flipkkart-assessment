@@ -6,8 +6,7 @@ A functional e-commerce web application that closely replicates Flipkart's desig
 | **Backend API (Render)** | [https://flipkkart-assessment.onrender.com](https://flipkkart-assessment.onrender.com) |
 | **Database (Neon)** | PostgreSQL Serverless |
 
-**Note**: Replace the URLs above with your actual deployed URLs after deployment. Also if choosing render as backend the initial load time would be more - it sleeps every 15 min due to inactivity.
-
+**Note**: Replace the URLs above with your actual deployed URLs after deployment. Also if visting the production url thinking it is not workinng - render goes to sleep if there is inactivity of > 15 minutes, I need to trigger render to wake up the service once again.
 ## Core Features Implemented
 
 ### Product Management
