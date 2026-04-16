@@ -158,7 +158,9 @@ Order Rules
 | **POST** | /orders/create | Create new order |
 
 ## Query Parameters
+
 | Endpoint | Parameter | Type | Description |
+|----------------|---------------|---------|-----------------|
 | GET /products | search | string | Search by product name |
 | GET /products | category | integer | Filter by category ID |
 
